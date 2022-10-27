@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Test Certificate Validation</string>
+    <string name="key_usage_successful">Successfully signed with %1$s</string>
+    <string name="key_usage_failed">FAILED utilizing key for signature/verification</string>
+</resources>

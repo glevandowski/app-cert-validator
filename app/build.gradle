@@ -1,0 +1,84 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 32
+    defaultConfig {
+        applicationId "levandowski.appcertvalidator"
+        minSdk 23
+        targetSdk 32
+        versionCode 2
+        versionName "2.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../certs/release.jks")
+            storePassword '12345678'
+            keyAlias 'release'
+            keyPassword '12345678'
+        }
+    }
+
+    def releaseConfig = {
+        debuggable false
+        signingConfig signingConfigs.release
+        multiDexEnabled true
+        zipAlignEnabled true
+        minifyEnabled true
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        testCoverageEnabled false
+        manifestPlaceholders.usesCleartextTraffic = "false"
+    }
+
+    buildTypes {
+        release releaseConfig
+    }
+    flavorDimensions "version"
+    productFlavors {
+        preGrant {
+            dimension "version"
+            applicationIdSuffix ".pregrant"
+            versionNameSuffix "-pregrant"
+            manifestPlaceholders = [appTheme: "@style/Theme.TestCertificate"]
+        }
+        autoGrant {
+            dimension "version"
+            applicationIdSuffix ".autogrant"
+            versionNameSuffix "-autogrant"
+            manifestPlaceholders = [appTheme: "@style/Theme.TestCertificate.Secondary"]
+        }
+    }
+
+    applicationVariants.all { variant ->
+        println("Iterating variant: " + variant.getName())
+        if (variant.getName().contains("preGrant")) {
+            variant.buildConfigField "boolean", "CAN_ENABLE_PRE_GRANT", "true"
+        } else if (variant.getName().contains("autoGrant")) {
+            variant.buildConfigField "boolean", "CAN_ENABLE_PRE_GRANT", "false"
+        }
+        variant.buildConfigField "String", "CERT_ALIAS", "\"INPUT_ALIAS\""
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
