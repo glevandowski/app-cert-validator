@@ -44,13 +44,23 @@ android {
             dimension "version"
             applicationIdSuffix ".pregrant"
             versionNameSuffix "-pregrant"
-            manifestPlaceholders = [appTheme: "@style/Theme.TestCertificate"]
+            manifestPlaceholders = [
+                appTheme: "@style/Theme.TestCertificate",
+                appName: "Pre-Grant",
+                appIcon: "@mipmap/ic_launcher_pregrant",
+                appIconRound: "@mipmap/ic_launcher_pregrant"
+            ]
         }
         autoGrant {
             dimension "version"
             applicationIdSuffix ".autogrant"
             versionNameSuffix "-autogrant"
-            manifestPlaceholders = [appTheme: "@style/Theme.TestCertificate.Secondary"]
+            manifestPlaceholders = [
+                appTheme: "@style/Theme.TestCertificate.Secondary",
+                appName: "Auto Grant",
+                appIcon: "@mipmap/ic_launcher_autogrant",
+                appIconRound: "@mipmap/ic_launcher_autogrant"
+            ]
         }
     }
 
@@ -74,9 +84,9 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
